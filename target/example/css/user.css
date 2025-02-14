@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #d4edda; /* Light green background */
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+    color: #333;
+    border: 2px solid #ddd;
+    padding: 10px;
+    background-color: #f2f2f2;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+label {
+    display: inline-block;
+    width: 150px; /* Adjust width as needed */
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+    width: calc(100% - 160px); /* Adjust width based on label width */
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #28a745; /* Green button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#add-incident-result,
+#sendMessageResult {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.incident-list,
+#publicMessagesContainer,
+#sendMessageSection,
+.logout {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+
+#publicMessagesContainer,
+#sendMessageSection,
+.logout button {
+    width: 100%;
+}
+
+.logout button {
+    background-color: #dc3545;
+    padding: 10px 20px;
+}
+
+.logout button:hover {
+    background-color: #c82333;
+}

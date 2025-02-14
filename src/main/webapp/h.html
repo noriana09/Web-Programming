@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/ol@7.2.2/dist/ol.js"></script>
+    <style>
+        #mapContainer {
+            width: 100%;
+            height: 400px;
+        }
+        .map-marker {
+            background-color: red;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mapContainer"></div>
+    <script>
+        const map = new ol.Map({
+            target: 'mapContainer',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([25.1531304, 35.3364321]), // Example coordinates for Heraklion
+                zoom: 14
+            })
+        });
+    </script>
+</body>
+</html>

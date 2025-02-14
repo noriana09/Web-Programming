@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="js/logout.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+<div class="dashboard">
+    <h1>Admin Dashboard</h1>
+
+    <!-- STEP 1: Add New Incident Form -->
+    <h2>Add New Incident</h2>
+    <form id="adminAddIncidentForm">
+        <label>Incident Type (incident_type):</label>
+        <input type="text" name="incident_type" required><br>
+
+        <label>Description (description):</label>
+        <input type="text" name="description" required><br>
+
+        <!-- NEW: user_type, user_phone, finalResult, vehicles, firemen -->
+
+        <label>User Type (user_type):</label>
+        <input type="text" name="user_type" value="admin"><br>
+        <!-- If the admin is creating it, maybe default to "admin" -->
+
+        <label>Phone (user_phone):</label>
+        <input type="text" name="user_phone"><br>
+
+        <label>Final Result (finalResult):</label>
+        <input type="text" name="finalResult" value="null"><br>
+        <!-- or keep empty, or "null", depends on your logic -->
+
+        <label>Vehicles (vehicles):</label>
+        <input type="number" name="vehicles" value="0"><br>
+
+        <label>Firemen (firemen):</label>
+        <input type="number" name="firemen" value="0"><br>
+        <!-- Adjust as needed -->
+
+        <label>Address (address):</label>
+        <input type="text" name="address"><br>
+
+        <label>Municipality (municipality):</label>
+        <input type="text" name="municipality"><br>
+
+        <label>Prefecture (prefecture):</label>
+        <input type="text" name="prefecture"><br>
+
+        <label>Latitude (lat):</label>
+        <input type="text" name="lat"><br>
+
+        <label>Longitude (lon):</label>
+        <input type="text" name="lon"><br>
+
+        <label>Danger Level (danger):</label>
+        <select name="danger">
+            <option value="unknown">unknown</option>
+            <option value="low">low</option>
+            <option value="medium">medium</option>
+            <option value="high">high</option>
+        </select><br>
+
+        <button type="submit">Add Incident</button>
+    </form>
+
+    <!-- A place to show success/error messages -->
+    <div id="adminAddIncidentResult"></div>
+
+    <!-- STEP 2: Existing Incidents List -->
+    <div id="incidents-container"></div>
+
+    <form id="createVolunteerPositionForm">
+        <label for="incidentId">Incident ID:</label>
+        <input type="number" id="incidentId" name="incident_id" required><br>
+
+        <label for="positionType">Position Type:</label>
+        <input type="text" id="positionType" name="position_type" required><br>
+
+        <label for="slotsOpen">Available Slots:</label>
+        <input type="number" id="slotsOpen" name="slots_open" required><br>
+
+        <button type="submit">Create Position</button>
+    </form>
+    <div id="createVolunteerPositionResult"></div>
+
+    <h2>Volunteer Requests</h2>
+    <div id="volunteerRequestsContainer"></div>
+
+    <h3>Available Incidents</h3>
+    <table id="incidentTable" border="1">
+        <thead>
+        <tr>
+            <th>Incident ID</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Populated dynamically by JavaScript -->
+        </tbody>
+    </table>
+
+    <h3>Selected Incident</h3>
+    <input type="text" id="selectedIncidentId" placeholder="Enter or select an Incident ID" readonly>
+
+    <!-- Send a Message -->
+    <h3>Send a Message</h3>
+    <textarea id="messageText" placeholder="Type your message"></textarea><br>
+    <label for="recipient">Recipient:</label>
+    <select id="recipient">
+        <option value="public">Public</option>
+        <option value="volunteers">Volunteers</option>
+    </select><br>
+    <button id="sendMessageButton" onclick="sendMessage()">Send</button>
+
+    <!-- Display Messages -->
+    <h3>Messages for Incident</h3>
+    <div id="messagesForIncident"></div>
+
+    <!-- Stats pie charts -->
+    <h3>Statistics</h3>
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
+    <div id="usersVolunteersChart" style="width: 900px; height: 500px;"></div>
+    <div id="barchart_vehicles_firemen" style="width: 900px; height: 500px;"></div>
+
+    <!-- STEP 3: Logout Button -->
+    <div class="logout">
+        <button onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<script src="js/adminDashboard.js"></script>
+</body>
+</html>

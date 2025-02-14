@@ -1,0 +1,131 @@
+body {
+    background-color: #e6f7e6; /* Light green background */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #2f4f4f; /* Darker green for headings */
+}
+
+h1#welcome-title {
+    font-size: 3em;
+}
+
+form {
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+
+input, button {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #8fbc8f; /* Light green border */
+    border-radius: 5px;
+}
+
+button {
+    background-color: #2f4f4f; /* Darker green for buttons */
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #556b2f; /* Slightly different green on hover */
+}
+
+#active-incidents-container {
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+p {
+    color: #8b0000; /* Dark red for error messages */
+}
+
+footer {
+    background-color: #2f4f4f; /* Darker green for footer */
+    color: white;
+    padding: 20px 0;
+    width: 100%;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: left;
+}
+
+footer h3 {
+    margin-bottom: 10px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+footer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+footer th, footer td {
+    padding: 10px;
+    border: 1px solid #495057;
+}
+
+footer th {
+    background-color: #495057;
+}
+
+footer a {
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        text-align: center;
+    }
+
+    footer table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+body {
+    padding-bottom: 150px; /* Adding padding to the body */
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Incident API Test</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script scr="js/guest.js"></script>
+    <link rel="stylesheet" href="css/guest.css">
+</head>
+<body>
+<h1 id="welcome-title">Incident API</h1>
+
+<h2>Add Incident</h2>
+<div id="addIncidentContainer">
+    <form id="add-incident-form">
+        <input type="text" id="incident_type" placeholder="Incident Type (fire/accident)" required>
+        <input type="text" id="description" placeholder="Description" required>
+        <input type="text" id="user_type" placeholder="User Type (guest/admin/user)" required>
+        <input type="text" id="user_phone" placeholder="User Phone" required>
+        <input type="text" id="address" placeholder="Address" required>
+        <input type="number" id="lat" placeholder="Latitude (e.g., 35.42)" step="0.0001">
+        <input type="number" id="lon" placeholder="Longitude (e.g., 25.33)" step="0.0001">
+        <input type="text" id="prefecture" placeholder="Prefecture (heraklion/chania/rethymno/lasithi)" required>
+        <input type="text" id="municipality" placeholder="Municipality" required>
+        <button type="submit">Add Incident</button>
+    </form>
+    <p id="add-incident-result"></p>
+</div>
+
+<h2>View Active Incidents</h2>
+<form id="get-incidents-form">
+    <button type="submit">View Active Incidents</button>
+</form>
+<div id="active-incidents-container">
+    <h3>Active Incidents</h3>
+    <ul id="active-incidents-list">
+        <!-- Results will appear here -->
+    </ul>
+</div>
+
+<script>
+    // Add Incident (POST)
+    document.getElementById("add-incident-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const data = {
+            incident_type: document.getElementById("incident_type").value.trim(),
+            description: document.getElementById("description").value.trim(),
+            user_type: document.getElementById("user_type").value.trim(),
+            user_phone: document.getElementById("user_phone").value.trim(),
+            address: document.getElementById("address").value.trim(),
+            lat: parseFloat(document.getElementById("lat").value) || null,
+            lon: parseFloat(document.getElementById("lon").value) || null,
+            prefecture: document.getElementById("prefecture").value.trim(),
+            municipality: document.getElementById("municipality").value.trim()
+        };
+
+        if (!data.incident_type || !data.description || !data.user_type ||
+            !data.user_phone || !data.address || !data.prefecture || !data.municipality) {
+            document.getElementById("add-incident-result").textContent =
+                "Error: All fields are required!";
+            return;
+        }
+
+        fetch("http://localhost:8081/A3_4739/incident", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                // If the server returns a 4xx or 5xx status, throw an error
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || "Server error");
+                    });
+                }
+                return response.json();
+            })
+            .then(json => {
+                document.getElementById("add-incident-result").textContent = json.message;
+            })
+            .catch(error => {
+                document.getElementById("add-incident-result").textContent = error.message;
+            });
+    });
+
+    // View Active Incidents (GET)
+    document.getElementById("get-incidents-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        const url = "http://localhost:8081/A3_4739/incident/all/running";
+
+        fetch(url, { method: "GET" })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.message || "Server error");
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                const incidentsList = document.getElementById("active-incidents-list");
+                incidentsList.innerHTML = "";
+
+                if (data.length === 0) {
+                    incidentsList.innerHTML = "<li>No active incidents found.</li>";
+                    return;
+                }
+
+                data.forEach(incident => {
+                    const listItem = document.createElement("li");
+                    listItem.innerHTML = `
+                        <strong>Type:</strong> ${incident.incident_type} <br>
+                        <strong>Description:</strong> ${incident.description} <br>
+                        <strong>Location:</strong> ${incident.address || "N/A"} <br>
+                        <strong>Prefecture:</strong> ${incident.prefecture || "N/A"} <br>
+                        <strong>Municipality:</strong> ${incident.municipality || "N/A"}
+                    `;
+                    incidentsList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                const incidentsList = document.getElementById("active-incidents-list");
+                incidentsList.innerHTML = `<li>Error: ${error.message}</li>`;
+            });
+    });
+</script>
+
+<h2>Send a Question to ChatGPT</h2>
+<form id="chatgpt-form">
+    <select id="chatgpt-default-questions">
+        <option value="How to handle a fire incident?">How to handle a fire incident?</option>
+        <option value="How to handle an accident incident?">How to handle an accident incident?</option>
+        <option value="Give me information on the best fire prevention methods.">Give me information on the best fire prevention methods.</option>
+        <option value="Give me information on the best accident prevention methods.">Give me information on the best accident prevention methods.</option>
+    </select>
+    <input type="text" id="chatgpt-custom-question" placeholder="Type your own question">
+    <button type="submit">Ask ChatGPT</button>
+</form>
+<p id="chatgpt-response"></p>
+
+
+
+<footer>
+    <div class="footer-container">
+        <h3>Information for other sites and links</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Topic</th>
+                <th>Link</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Fire Service Page</td>
+                <td><a href="https://www.fireservice.gr/" target="_blank">https://www.fireservice.gr/</a></td>
+            </tr>
+            <tr>
+                <td>Fire Maps Page</td>
+                <td><a href="https://civilprotection.gov.gr/arxeio-imerison-xartwn" target="_blank">https://civilprotection.gov.gr/arxeio-imerison-xartwn</a></td>
+            </tr>
+            <tr>
+                <td>Other links</td>
+                <td>
+                    <a href="https://www.facebook.com/" target="_blank">Facebook</a> |
+                    <a href="https://twitter.com/" target="_blank">Twitter</a> |
+                    <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</footer>
+
+
+</body>
+</html>

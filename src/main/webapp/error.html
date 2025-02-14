@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Failed</title>
+</head>
+<body>
+<h1>Registration Failed</h1>
+<p id="message"></p>
+<a href="loginALL.html">Go back to the homepage</a>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById('message').textContent = params.get('message') || 'An error occurred during registration.';
+</script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+</head>
+<body>
+<h1>User Profile</h1>
+        <div id="userProfile">
+          <p>
+            Username: <span id="usernameDisplay"></span>
+          </p>
+          <p>
+              Email: <span id="emailDisplay"></span>
+              <input id="email" type="email" style="display: none;">
+              <button id="editEmail">Edit</button>
+          </p>
+          <p>
+            First Name: <span id="firstnameDisplay"></span>
+            <input id="firstname" type="text" style="display: none;">
+            <button id="editFirstname">Edit</button>
+          </p>
+          <p>
+            Last Name: <span id="lastnameDisplay"></span>
+            <input id="lastname" type="text" style="display: none;">
+            <button id="editLastname">Edit</button>
+          </p>
+          <p>
+            Birthdate: <span id="birthdateDisplay"></span>
+            <input id="birthdate" type="date" style="display: none;">
+            <button id="editBirthdate">Edit</button>
+          </p>
+          <p>
+            Gender: <span id="genderDisplay"></span>
+            <select id="gender" style="display: none;">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+            <button id="editGender">Edit</button>
+          </p>
+          <p>
+            Country: <span id="countryDisplay"></span>
+            <input id="country" type="text" style="display: none;">
+            <button id="editCountry">Edit</button>
+          </p>
+          <p>
+            Address: <span id="addressDisplay"></span>
+            <input id="address" type="text" style="display: none;">
+            <button id="editAddress">Edit</button>
+          </p>
+          <p>
+            Municipality: <span id="municipalityDisplay"></span>
+            <input id="municipality" type="text" style="display: none;">
+            <button id="editMunicipality">Edit</button>
+          </p>
+          <p>
+            Prefecture: <span id="prefectureDisplay"></span>
+            <input id="prefecture" type="text" style="display: none;">
+            <button id="editPrefecture">Edit</button>
+          </p>
+          <p>
+            Job: <span id="jobDisplay"></span>
+            <input id="job" type="text" style="display: none;">
+            <button id="editJob">Edit</button>
+          </p>
+          <p>
+            Telephone: <span id="telephoneDisplay"></span>
+          </p>
+          <p>
+            AFM: <span id="afmDisplay"></span>
+          </p>
+          <p>
+            Latitude: <span id="latitudeDisplay"></span>
+            <input id="latitude" type="text" style="display: none;">
+            <button id="editLatitude">Edit</button>
+          </p>
+          <p>
+            Longitude: <span id="longitudeDisplay"></span>
+            <input id="longitude" type="text" style="display: none;">
+            <button id="editLongitude">Edit</button>
+          </p>
+        </div>
+
+<button id="saveChangesButton" style="display: none;">Save Changes</button>
+<button id="logoutButton">Logout</button>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    try {
+      const response = await fetch("/A3_4739/getUserDetails");
+      const data = await response.json();
+
+      if (data.success) {
+        const fields = [
+          "username", "email", "firstname", "lastname", "birthdate", "gender",
+          "country", "address", "municipality", "prefecture", "job",
+          "telephone", "afm", "latitude", "longitude"
+        ];
+
+        fields.forEach(field => {
+          document.getElementById(`${field}Display`).innerText = data[field] || "";
+          if (document.getElementById(field)) {
+            document.getElementById(field).value = data[field] || "";
+          }
+        });
+      } else {
+        console.error("Failed to fetch user details:", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  });
+
+  function enableEditing(fieldId) {
+    const displayElement = document.getElementById(`${fieldId}Display`);
+    const inputElement = document.getElementById(fieldId);
+
+    displayElement.style.display = "none";
+    inputElement.style.display = "inline-block";
+    document.getElementById("saveChangesButton").style.display = "inline-block";
+  }
+
+  const editableFields = [
+    "email", "firstname", "lastname", "birthdate", "gender",
+    "country", "address", "municipality", "prefecture", "job",
+    "latitude", "longitude"
+  ];
+
+  editableFields.forEach(field => {
+    document.getElementById(`edit${field.charAt(0).toUpperCase() + field.slice(1)}`)
+            .addEventListener("click", () => enableEditing(field));
+  });
+
+  // Save Changes
+  document.getElementById("saveChangesButton").addEventListener("click", async () => {
+    const updatedDetails = {};
+
+    editableFields.forEach(field => {
+      const inputElement = document.getElementById(field);
+      if (inputElement && inputElement.style.display !== "none") {
+        updatedDetails[field] = inputElement.value;
+      }
+    });
+
+    //AJAX REQUEST
+    try {
+      const response = await fetch("/A3_4739/updateUserDetails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedDetails),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Profile updated successfully!");
+        location.reload();
+      } else {
+        alert(`Error updating profile: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  });
+
+  // Logout
+  document.getElementById("logoutButton").addEventListener("click", async () => {
+    try {
+      const response = await fetch("/A3_4739/logout", { method: "POST" });
+      if (response.ok) {
+        window.location.href = "/A3_4739/login.html";
+      } else {
+        alert("Failed to logout.");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Successful</title>
+</head>
+<body>
+<h1>Registration Successful!</h1>
+<p id="message"></p>
+<a href="loginALL.html">Go back to the homepage</a>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById('message').textContent = params.get('message') || 'Your registration was successful!';
+</script>
+</body>
+</html>

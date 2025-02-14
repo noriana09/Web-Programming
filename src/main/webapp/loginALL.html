@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Options</title>
+    <link rel="stylesheet" href="css/loginALL.css">
+    <script src="js/login.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome</h1>
+    <!-- Login Form -->
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <!-- User Role Selection -->
+        <label for="userType">Select User Type:</label>
+        <select id="userType" name="userType" required>
+            <option value="user" selected>Regular User</option>
+            <option value="volunteer">Volunteer</option>
+            <option value="admin">Admin</option>
+        </select><br><br>
+
+        <button type="button" onclick="loginUser()">Login</button>
+    </form>
+
+    <!-- Signup Redirect -->
+    <button id="signUpButton"  onclick="window.location.href='index.html'">Sign Up</button>
+
+    <!-- Guest Access -->
+    <button id="guestButton" onclick="window.location.href='guest.html'">Continue as Guest</button>
+</div>
+</body>
+</html>
